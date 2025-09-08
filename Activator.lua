@@ -17,12 +17,7 @@ local function findRemoteEvent(parent)
 end
 
 local remoteEvent = findRemoteEvent(Workspace)
-local LocalPlayer = Players.LocalPlayer
-LocalPlayer.Chatted:Connect(function(msg)
-	if msg == "/SH" then
-		if remoteEvent then
-			remoteEvent:FireServer()
-		end
-	end
-end)
+if remoteEvent then
+	remoteEvent:FireServer()
+end
 
