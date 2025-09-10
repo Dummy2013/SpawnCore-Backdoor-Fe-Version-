@@ -1,23 +1,23 @@
-local Workspace = game:GetService("Workspace")
+local plr = game.Players.LocalPlayer
 
 local function findRemoteEvent(parent)
-	local found = nil
-	local children = parent:GetChildren()
-	for i, child in children do
+	for _, child in ipairs(parent:GetChildren()) do
 		if child:IsA("RemoteEvent") and child.Name == " " then
-			found = child
-		else
-			local deeper = findRemoteEvent(child)
-			if deeper then
-				found = deeper
-			end
+			return child
 		end
+		local found = findRemoteEvent(child)
+		if found then return found end
 	end
-	return found
+	return nil
 end
 
-local remoteEvent = findRemoteEvent(Workspace)
-if remoteEvent then
-	remoteEvent:FireServer()
+local remote
+while not remote do
+	remote = findRemoteEvent(game.Workspace)
+	if not remote then
+		task.wait(0.5)
+	end
 end
 
+task.wait(0.1)
+remote:FireServer()
